@@ -81,7 +81,7 @@
 
     * sameSite="Strict" : crossOrigin이 아닌 same-site인 경우에만 쿠키를 전송할 수 있다.
 
-    -* sameSite="Lax" (디폴트) : crossOrigin 요청이면 get 메소드에 대해서만 쿠키를 전송할 수 있다. 
+    * sameSite="Lax" (디폴트) : crossOrigin 요청이면 get 메소드에 대해서만 쿠키를 전송할 수 있다. 
 
       
 
