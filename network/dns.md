@@ -1,61 +1,103 @@
 ## DNS
 
-* Domain Name System
 
-<br/>
-<br/>
 
 ### 세줄 요약
 
-* 
+* 사람이 읽을 수 있는 도메인 이름을 ip 주소로 변환하는 시스템이다.
+* 계층 구조의 네임 서버로 구성되어 있고 이 서버들 간의 질의를 통해 ip 를 응답한다.
+* 네임 서버는 root, tld, sld, sub 도메인 서버로 구성된다. 
 
 <br/>
 <br/>
 
 
-### 사용자가 도메인 주소로 접속하는 과정
-1. 로컬 컴퓨터가 특정 도메인 주소에 접속한다.
-2. 호스트 파일에서 도메인 네임을 찾고 없으면 DNS 서버로 도메인 네임의 ip 를 요청한다.
-3. DNS 서버는 해당 ip 를 응답한다.
-4. 사용자는 해당 ip를 가지고 도메인주소로 통신하게 된다.
-
+## DNS 란?
+* 웹사이트에 접속할 때 외우기 어려운 ip 주소 대신 도메인 이름을 사용한다. 
+* 그래서 DNS 를 통해 도메인 이름을 사용했을 때 실제 ip 주소로 바꾸고 접속하는 과정이 필요하다.
+* 상위 기관에서 인증된 기관에게 도메인을 생성하거나 ip 주소로 변경할 수 있는 권한을 부여한다.
+* DNS 는 이처럼 상위, 하위 기관과 같은 계층 구조를 가지는 분산 데이터베이스 구조를 가진다.
 
 <br/>
 <br/>
 
-### Domain 이름의 구조
-* 도메인 네임 맨 뒤에는 사실 '.' 이 존재한다. 
 
-  예시 : blog.example.com.
+## DNS 구성
+ domin=ip 텍스트를 저장할 데이터 베이스, 검색 프로그램, ip 주소 이동 프로그램(브라우저) 가 필요하다.
+* 도메인 네임 스페이스 : 도메인 이름 분산 저장 규칙
+* 네임 서버 : 해당 도메인 이름의 ip 주소를 찾는다.
+* 리졸버 : 클라이언트 요청을 네임 서버로 전달하고 찾은 정보를 클라이언트에게 제공한다.
+
+<br/>
+
+### 도메인 네임스페이스
+* DNS 는 전 세계적인 거대한 분산 시스템이고 계층 구조를 가진다.
+* 그런 이유로 도메인 네임 맨 뒤에는 사실 '.' 이 존재한다.
+* 예시 : blog.example.com.
   * 마지막에 있는 점 : 최상위 단위 root
   * blog.example.com. : root 도메인
   * com : top-level 도메인 (.net, .co.kr)
   * example : second-level 도메인
   * blog : sub 도메인
+
+<br/>
+
+### 도메인 네임 서버
+1. root DNS 서버
+    * ICANN 이 직접 관리하는 최상위 서버
+    * TLD 서버의 ip 주소를 저장, 안내한다.
+
+2. top-level-domain DNS 서버
+    * 도메인 등록 기관이 관리하는 서버
+    * SLD 서버의 ip 주소를 저장, 안내한다.
+
+4. second-level-domain DNS 서버
+    * 도메인-ip 주소 관계가 기록되는 서버
+    * 일반적으로 도메인, 호스팅 업체의 네임 서버를 의미한다.
+
+
+6. 권한 없는 DNS 서버
+    * 질의를 통해 ip 주소를 조회, 캐싱한다.
+
+<br/>
+
+### 도메인 리졸버
+* 클라이언트의 요청을 네임 서버로 전달하고, 네임 서버로부터 ip 정보를 받아 응답한다.
+* 하나의 네임 서버에게 DNS 요청을 전달하고, 해당 서버에 정보가 없으면 다른 네임 서버에게 요청을 전달한다.
+
+<br/>
+
+### 네임 서버 관계
 * 각 레벨을 담당하는 DNS 서버가 각각 존재하며 상위 DNS 서버가 직속 하위 정보를 알고 있어야 한다.
-  * root 담당 DNS 서버는 top-level 담당 DNS 서버 목록을 알고 있어야 한다.
-  * top-level 담당 DNS 서버는 second-level 담당 DNS 서버 목록을 알고 있어야 한다.
-  * second-level 담당 DNS 서버는 sub 담당 DNS 서버 목록을 알고 있어야 한다.
-* blog.example.com 의 ip 주소를 찾는 과정
-  (로컬 컴퓨터는 root 네임 서버의 ip 주소는 알고 있다.)
-  1. root 도메인 전담 서버에게 blog.example.com. 을 요청한다.
-  2. root 도메인 전담 서버는 com 전담 서버들의 ip 를 알려준다.
-  3. top-level 도메인 전담 서버에게 blog.example.com. 을 요청한다.
-  4. top-level 도메인 전담 서버는 example.com 전담 서버들의 ip 를 알려준다.
-  5. sub 도메인 전담 서버에게 blog.example.com. 을 요청한다.
-  6. sub 도메인 전담 서버는 blog.example.com. 의 ip 를 응답한다.
+* root 담당 DNS 서버는 top-level 담당 DNS 서버 목록을 알고 있어야 한다.
+* top-level 담당 DNS 서버는 second-level 담당 DNS 서버 목록을 알고 있어야 한다.
+* second-level 담당 DNS 서버는 sub 담당 DNS 서버 목록을 알고 있어야 한다.
+
+<br/>
+
+### 예시 : blog.example.com 의 ip 주소를 찾는 과정
+* 로컬 컴퓨터는 root 네임 서버의 ip 주소는 알고 있다.
 * 전 세계에 퍼져있는 수 많은 DNS 서버들이 위와 같은 과정을 통해 ip 주소를 응답한다. 
+1. root 도메인 전담 서버에게 blog.example.com. 을 요청한다.
+2. root 도메인 전담 서버는 com 전담 서버들의 ip 를 알려준다.
+3. top-level 도메인 전담 서버에게 blog.example.com. 을 요청한다.
+4. top-level 도메인 전담 서버는 example.com 전담 서버들의 ip 를 알려준다.
+5. sub 도메인 전담 서버에게 blog.example.com. 을 요청한다.
+6. sub 도메인 전담 서버는 blog.example.com. 의 ip 를 응답한다.
 
 <br/>
-<br/>
 
+### DNS 동작 과정
+1. 로컬 컴퓨터가 특정 도메인 주소에 접속한다.
+2. 호스트 파일에서 도메인 네임을 찾고 없으면 DNS 서버로 도메인 네임의 ip 를 요청한다.
+    * 웹 브라우저는 이전에 방문한 기록이 있는 지 조회한다. 
+      * 브라우저 캐시 확인
+      * os 캐시 확인
+      * 라우터 캐시 확인
+      * isp 캐시 확인 
+4. DNS 서버는 해당 ip 를 응답한다.
+5. 사용자는 해당 ip를 가지고 도메인주소로 통신하게 된다.
 
-### Domain 이름 등록 과정과 원리
-* ICANN 조직은 전 세계게 ip 주소, root 네임 서버를 관리한다.
-* 등록자와 ICANN 사이 등록 대행자, 등록소가 존재한다.
-* 등록소는 top-level 네임 서버를 관리한다.
-* 등록 대행자는 authoritative 네임 서버를 관리한다.
-* 
 
 <br/>
 <br/>
@@ -64,3 +106,4 @@
 ### 참고 레퍼런스
 * https://opentutorials.org/course/3276/20299
 * https://opentutorials.org/course/3276/20303
+* https://hanamon.kr/dns%EB%9E%80-%EB%8F%84%EB%A9%94%EC%9D%B8-%EB%84%A4%EC%9E%84-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EA%B0%9C%EB%85%90%EB%B6%80%ED%84%B0-%EC%9E%91%EB%8F%99-%EB%B0%A9%EC%8B%9D%EA%B9%8C%EC%A7%80/
