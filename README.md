@@ -6,5 +6,5 @@
 
 ### 📚 진행 방법
 * 매일 IT 관련 기술을 1개씩 정리한다.
-* 주제 고르기 : 관심있는 주제, [백엔드 개발자 로드맵 키워드](https://github.com/pocojang/developer-roadmap/blob/master/img/backend.png) 를 참고
+* 주제 고르기 : 관심있는 주제, [백엔드 개발자 로드맵 키워드](https://github.com/pocojang/developer-roadmap/blob/master/img/backend.png), [백엔드 개발 면접 레퍼런스](https://zero-base.co.kr/event/media_BE_school_qna) 를 참고
 * 기록 하기 : 해당 기술에 대해 핵심 키워드를 한 줄로 말할 수 있도록 **짧고 간단하게** 정리한다.
